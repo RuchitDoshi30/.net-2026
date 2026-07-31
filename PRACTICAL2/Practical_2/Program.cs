@@ -1,12 +1,10 @@
 using System;
 
-// Interface
 interface IPayroll
 {
     void CalculateSalary();
 }
 
-// Base Class
 class Employee
 {
     public string Name { get; private set; }
@@ -19,7 +17,6 @@ class Employee
     }
 }
 
-// Derived Class
 class FullTimeEmployee : Employee, IPayroll
 {
     public double Salary { get; private set; }
@@ -43,7 +40,7 @@ class Program
     static void Main(string[] args)
     {
         FullTimeEmployee employee = new FullTimeEmployee("TONY STARK", 101, 30000);
-        IPayroll payroll = employee; // Polymorphism
+        IPayroll payroll = employee;
         payroll.CalculateSalary();
     }
 }
