@@ -89,7 +89,7 @@ Access modifiers define the accessibility/visibility of class members from outsi
 ### Execution Steps
 1. Open terminal inside the `Practical_1` folder:
    ```bash
-   cd Practical_1
+   cd PRACTICAL1/Practical_1
    ```
 2. Build and run the C# project using .NET CLI:
    ```bash
@@ -132,3 +132,36 @@ Admission Status  : Confirmed
 
 Press any key to exit...
 ```
+
+---
+
+## 🎓 Viva Preparation Notes & Q&A
+
+### Key Concepts & Code Map
+
+| Concept | Code Reference | Viva Explanation |
+| :--- | :--- | :--- |
+| **`using System`** | Line 1 | Imports the `System` namespace containing built-in classes (`Console`, `Convert`, `String`). |
+| **Namespace** | `namespace StudentAdmissionManagement` | Logical container grouping related classes to prevent naming conflicts. |
+| **Class** | `class Student` | A blueprint/template holding fields (data) and methods (behavior). Reference type stored on heap. |
+| **Object** | `Student s1 = new Student(...)` | Real-world instance of a class created at runtime using `new`. |
+| **Constructor** | `public Student(...)` | Special method called automatically on object creation to initialize fields. |
+| **`this` Keyword** | `this.studentId = id;` | Refers to current class instance; resolves naming conflict between field and parameter. |
+| **Access Modifiers** | `private` vs `public` | `private` restricts field access to inside class; `public` exposes methods externally. |
+| **Encapsulation** | Wrapping data + methods | Hiding internal fields (`private`) and providing controlled access via methods (`PayFees()`). |
+| **Null-Coalescing `??`** | `Console.ReadLine() ?? ""` | Returns empty string `""` if user input is `null`, preventing `NullReferenceException`. |
+| **`Convert` Class** | `Convert.ToInt32()` | Converts string console input into numeric integer types for calculations. |
+
+### Quick Viva Q&A
+
+**Q1: What is the difference between Class and Object?**
+- A **Class** is a logical blueprint/template, whereas an **Object** is a physical instance of that blueprint allocated in heap memory at runtime using `new`.
+
+**Q2: Why are student fields declared `private`?**
+- To achieve **Encapsulation and Data Hiding**. Direct modification from outside could corrupt data (e.g., setting `paidFees` to negative). Modifications occur strictly through validated public methods like `PayFees()`.
+
+**Q3: What happens if you don't define a constructor in C#?**
+- The C# compiler automatically provides a default no-argument constructor initializing fields to their default values (`0` for numbers, `null` for objects).
+
+**Q4: What is the role of `this` keyword in `this.studentId = id;`?**
+- It explicitly differentiates the instance variable `this.studentId` from the parameter `id` when their scope overlaps.

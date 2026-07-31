@@ -127,3 +127,32 @@ Salary: 30000
 | **Interface Implementation** | `FullTimeEmployee : IPayroll` | Fulfill the payroll contract |
 | **Polymorphism** | `IPayroll payroll = employee` | Treat derived object via interface reference |
 | **Encapsulation** | `get; private set;` properties | Protect data from external modification |
+
+---
+
+## 🎓 Viva Preparation Notes & Q&A
+
+### Key Concepts & Code Map
+
+| Concept | Code Reference | Viva Explanation |
+| :--- | :--- | :--- |
+| **Inheritance** | `class FullTimeEmployee : Employee` | `FullTimeEmployee` (derived) inherits properties (`Name`, `Id`) from `Employee` (base). |
+| **Interface** | `interface IPayroll` | Pure contract defining method signature `void CalculateSalary()` without body. |
+| **Interface Implementation** | `class FullTimeEmployee : ..., IPayroll` | Fulfills contract by implementing `CalculateSalary()` body. |
+| **Polymorphism** | `IPayroll payroll = employee;` | Interface reference holds a derived object; resolves method at runtime. |
+| **`base` Keyword** | `: base(name, id)` | Calls base class `Employee(name, id)` constructor from derived class constructor. |
+| **Auto-Properties** | `{ get; private set; }` | Provides controlled read access (`get`) while restricting write access (`private set`) to class itself. |
+
+### Quick Viva Q&A
+
+**Q1: What is the difference between Inheritance and Interface?**
+- **Inheritance** (`: BaseClass`) provides code reuse via base implementation and allows single class inheritance. An **Interface** (`: IInterface`) defines a strict behavior contract without fields/constructors, allowing multiple interface implementation.
+
+**Q2: Explain `IPayroll payroll = employee; payroll.CalculateSalary();` in terms of Polymorphism.**
+- This demonstrates **Runtime Polymorphism**. `payroll` is an interface reference type pointing to a `FullTimeEmployee` object. At runtime, the CLR invokes the concrete `CalculateSalary()` method of `FullTimeEmployee`.
+
+**Q3: Why is `: base(name, id)` necessary in `FullTimeEmployee`?**
+- Because the base class `Employee` defines a parameterized constructor and lacks a default no-argument constructor, the derived class must explicitly pass arguments to the parent constructor using `: base(...)`.
+
+**Q4: Can a C# class inherit multiple base classes?**
+- No. C# supports only single class inheritance to avoid ambiguity (Diamond Problem), but a class can implement multiple interfaces.

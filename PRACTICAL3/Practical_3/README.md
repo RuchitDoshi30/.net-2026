@@ -174,3 +174,31 @@ Total Spent       : ₹   2500.00
 Remaining Balance : ₹   7500.00
 =======================================================
 ```
+
+---
+
+## 🎓 Viva Preparation Notes & Q&A
+
+### Key Concepts & Code Map
+
+| Concept | Code Reference | Viva Explanation |
+| :--- | :--- | :--- |
+| **`try-catch-finally`** | `try { ... } catch { ... } finally { ... }` | `try` traps potential errors, `catch` handles specific exceptions, `finally` always executes cleanup/logs. |
+| **Built-in Exceptions** | `FormatException`, `DivideByZeroException` | Pre-defined CLR runtime exceptions for format errors, division by zero, etc. |
+| **Custom Exceptions** | `InvalidExpenseAmountException`, `BudgetExceededException` | User-defined classes inheriting from `System.Exception` representing business domain errors. |
+| **`throw` Keyword** | `throw new BudgetExceededException(...)` | Explicitly triggers/raises an exception when business constraints are violated. |
+| **Catch Chaining** | Specific → General | Catch blocks are evaluated sequentially from most specific exception type to base `Exception`. |
+
+### Quick Viva Q&A
+
+**Q1: What is the difference between `SystemException` and Custom Application Exceptions?**
+- `SystemException` is thrown by the CLR runtime for framework-level errors (`FormatException`, `NullReferenceException`). Custom exceptions derive from `System.Exception` to handle business logic rule violations.
+
+**Q2: Does the `finally` block execute if an exception is caught? What if no exception occurs?**
+- The `finally` block **ALWAYS** executes regardless of whether an exception occurred, was caught, or if a `return` statement was encountered inside `try`/`catch`.
+
+**Q3: Why must catch blocks be ordered from specific to general?**
+- Catch blocks are evaluated top-down. Catching base `Exception` first would intercept all exceptions, making subsequent specific catch blocks unreachable (causes compile error).
+
+**Q4: How do you create a custom exception class in C#?**
+- Create a class that inherits from `System.Exception` (or `ApplicationException`) and pass the error message to the base constructor using `: base(message)`.
