@@ -9,6 +9,7 @@ Welcome to the **.NET Technology (DNT) Lab Practicals Repository**. This reposit
 | Practical No. | Topic / Title | Key Concepts | Documentation |
 | :---: | :--- | :--- | :---: |
 | **Practical 1** | Student Admission Management Module | Class, Object, Parameterized Constructor, Access Modifiers (`private`, `public`), Encapsulation | [View Practical 1](./Practical_1/README.md) |
+| **Practical 2** | Employee Payroll System | Inheritance, Interface, Polymorphism | [View Practical 2](./PRACTICAL2/README.md) |
 
 ---
 
