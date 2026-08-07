@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CampusFest 2026</title>
+
+    <!-- Google Fonts: Plus Jakarta Sans, Inter, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Practical_4.styles.css" asp-append-version="true" />
+</head>
+<body class="fest-bg">
+    <!-- Floating Ambient Gradient Orbs in Background -->
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+    <div class="floating-orb orb-3"></div>
+
+    <header class="sticky-top z-3">
+        <nav class="navbar navbar-expand-lg navbar-light fest-navbar">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center gap-2" asp-area="" asp-page="/Index">
+                    <span class="fest-logo-icon"><i class="bi bi-sparkles"></i></span>
+                    <span class="fest-brand-text">Campus<span class="text-primary-gradient">Fest 2026</span></span>
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#festNavbar" aria-controls="festNavbar"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="festNavbar">
+                    <ul class="navbar-nav ms-auto align-items-center gap-3">
+                        <li class="nav-item">
+                            <a class="nav-link text-heading fw-semibold active" asp-area="" asp-page="/Index"><i class="bi bi-house-door me-1"></i> Registration</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted fw-medium" asp-area="" asp-page="/Privacy"><i class="bi bi-shield-check me-1"></i> Guidelines</a>
+                        </li>
+                        <li class="nav-item ms-lg-2">
+                            <span class="fest-badge-pill px-3 py-2"><i class="bi bi-calendar-event me-1"></i> Oct 24-26, 2026</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-content-wrapper position-relative z-1">
+        <main role="main" class="pb-5">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="fest-footer py-4 mt-auto position-relative z-1">
+        <div class="container text-center text-md-between d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+            <div>
+                <p class="mb-0 fw-semibold text-heading">🎓 <strong>CampusFest 2026 — College Event Registration Portal</strong></p>
+                <small class="text-muted">Built with ASP.NET Core Razor Pages, Tag Helpers & Data Annotations</small>
+            </div>
+            <div>
+                <span class="text-muted me-3">&copy; 2026 Marwadi University</span>
+                <a asp-area="" asp-page="/Privacy" class="text-primary text-decoration-none fw-semibold">Privacy & Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

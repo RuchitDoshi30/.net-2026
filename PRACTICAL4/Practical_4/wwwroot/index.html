@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Event Registration Portal - Practical 4</title>
+    <!-- Bootstrap CSS -->
+    <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .card { border-radius: 12px; }
+        .validation-summary-errors { color: #dc3545; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 12px 20px; border-radius: 8px; margin-bottom: 20px; }
+        .validation-summary-errors ul { margin-bottom: 0; padding-left: 20px; }
+        .error-msg { color: #dc3545; font-size: 0.875rem; margin-top: 4px; display: block; }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="text-center mb-4">
+            <h1 class="display-5 text-primary font-weight-bold">🎟️ Online Event Registration Portal</h1>
+            <p class="lead text-muted">Practical 4: Built using ASP.NET / HTML5 Controls & Validation</p>
+        </div>
+
+        <!-- Confirmation Card (Hidden by default, shown upon successful registration) -->
+        <div id="confirmationCard" class="card border-success shadow-lg mb-5 d-none">
+            <div class="card-header bg-success text-white py-3">
+                <h4 class="m-0">🎉 Registration Confirmed Successfully!</h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="alert alert-success">
+                    <strong>Registration Reference ID:</strong> <span id="resRegId" class="badge bg-dark fs-6">REG-847291</span>
+                </div>
+                <div class="row g-3 fs-5">
+                    <div class="col-md-6"><strong>Attendee Name:</strong> <span id="resName"></span></div>
+                    <div class="col-md-6"><strong>Email:</strong> <span id="resEmail"></span></div>
+                    <div class="col-md-6"><strong>Phone:</strong> <span id="resPhone"></span></div>
+                    <div class="col-md-6"><strong>Event Selected:</strong> <span id="resEvent"></span></div>
+                    <div class="col-md-6"><strong>Ticket Type:</strong> <span id="resTicketType"></span></div>
+                    <div class="col-md-6"><strong>No. of Tickets:</strong> <span id="resTicketsCount"></span></div>
+                    <div class="col-md-6"><strong>Event Date:</strong> <span id="resDate"></span></div>
+                    <div class="col-md-6"><strong>Total Amount Paid:</strong> <span id="resTotal" class="text-success font-weight-bold"></span></div>
+                </div>
+                <div class="mt-4 text-center">
+                    <button onclick="resetRegistration()" class="btn btn-outline-success btn-lg">Register Another Event</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registration Form Card -->
+        <div id="formCard" class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0 rounded-lg">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h4 class="mb-0 text-center">Event Registration Form</h4>
+                    </div>
+                    <div class="card-body p-4">
+
+                        <!-- Validation Summary Control -->
+                        <div id="validationSummary" class="validation-summary-errors d-none">
+                            <strong>Please fix the following validation errors:</strong>
+                            <ul id="summaryList"></ul>
+                        </div>
+
+                        <form id="eventForm" novalidate>
+                            
+                            <!-- Full Name (Required, StringLength Validation) -->
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label font-weight-bold">Full Name *</label>
+                                <input type="text" id="fullName" name="fullName" class="form-control" placeholder="Enter your full name" />
+                                <span id="errFullName" class="error-msg"></span>
+                            </div>
+
+                            <!-- Email & Confirm Email (EmailAddress, Compare Validation) -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label font-weight-bold">Email Address *</label>
+                                    <input type="email" id="email" name="email" class="form-control" placeholder="name@example.com" />
+                                    <span id="errEmail" class="error-msg"></span>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="confirmEmail" class="form-label font-weight-bold">Confirm Email Address *</label>
+                                    <input type="email" id="confirmEmail" name="confirmEmail" class="form-control" placeholder="Re-enter your email" />
+                                    <span id="errConfirmEmail" class="error-msg"></span>
+                                </div>
+                            </div>
+
+                            <!-- Phone Number (Regular Expression Validation) -->
+                            <div class="mb-3">
+                                <label for="phoneNumber" class="form-label font-weight-bold">Phone Number *</label>
+                                <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="10-digit mobile number (e.g., 9876543210)" />
+                                <span id="errPhoneNumber" class="error-msg"></span>
+                            </div>
+
+                            <!-- Select Event (Dropdown Control Required Validation) -->
+                            <div class="mb-3">
+                                <label for="eventName" class="form-label font-weight-bold">Select Event *</label>
+                                <select id="eventName" name="eventName" class="form-select">
+                                    <option value="">-- Choose an Event --</option>
+                                    <option value="Annual .NET Tech Summit 2026">Annual .NET Tech Summit 2026</option>
+                                    <option value="AI & Cloud Innovation Conference">AI & Cloud Innovation Conference</option>
+                                    <option value="CyberSecurity & Ethical Hacking Workshop">CyberSecurity & Ethical Hacking Workshop</option>
+                                    <option value="Full-Stack Web Dev Bootcamp">Full-Stack Web Dev Bootcamp</option>
+                                </select>
+                                <span id="errEventName" class="error-msg"></span>
+                            </div>
+
+                            <!-- Ticket Type & Ticket Count (Range Validation) -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="ticketType" class="form-label font-weight-bold">Ticket Pass Type *</label>
+                                    <select id="ticketType" name="ticketType" class="form-select">
+                                        <option value="">-- Select Pass Type --</option>
+                                        <option value="Standard Pass (₹499)">Standard Pass (₹499)</option>
+                                        <option value="VIP Pass (₹1499)">VIP Pass (₹1499)</option>
+                                        <option value="Student Pass (₹199)">Student Pass (₹199)</option>
+                                    </select>
+                                    <span id="errTicketType" class="error-msg"></span>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="numberOfTickets" class="form-label font-weight-bold">Number of Tickets (1-10) *</label>
+                                    <input type="number" id="numberOfTickets" name="numberOfTickets" class="form-control" value="1" min="1" max="10" />
+                                    <span id="errNumberOfTickets" class="error-msg"></span>
+                                </div>
+                            </div>
+
+                            <!-- Preferred Event Date -->
+                            <div class="mb-3">
+                                <label for="eventDate" class="form-label font-weight-bold">Preferred Event Date *</label>
+                                <input type="date" id="eventDate" name="eventDate" class="form-control" />
+                                <span id="errEventDate" class="error-msg"></span>
+                            </div>
+
+                            <!-- Terms & Conditions Checkbox -->
+                            <div class="mb-4 form-check">
+                                <input type="checkbox" id="agreedToTerms" name="agreedToTerms" class="form-check-input" />
+                                <label for="agreedToTerms" class="form-check-label">
+                                    I agree to the <a href="#" onclick="alert('Terms: Registrations are non-refundable. Attendees must bring valid photo ID.'); return false;">Terms & Conditions</a>.
+                                </label>
+                                <br />
+                                <span id="errAgreedToTerms" class="error-msg"></span>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="button" onclick="resetForm()" class="btn btn-secondary me-md-2">Reset Form</button>
+                                <button type="submit" class="btn btn-primary btn-lg">Complete Registration 🚀</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Set default date to 7 days in future
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            today.setDate(today.getDate() + 7);
+            document.getElementById('eventDate').value = today.toISOString().split('T')[0];
+        });
+
+        // Form Validation & Submission Handling
+        document.getElementById('eventForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Clear previous errors
+            const errors = [];
+            document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+            document.getElementById('validationSummary').classList.add('d-none');
+            document.getElementById('summaryList').innerHTML = '';
+
+            // 1. Full Name Validation
+            const fullName = document.getElementById('fullName').value.trim();
+            if (!fullName) {
+                const msg = "Full Name is required.";
+                errors.push(msg);
+                document.getElementById('errFullName').textContent = msg;
+            } else if (fullName.length < 3 || fullName.length > 50) {
+                const msg = "Full Name must be between 3 and 50 characters.";
+                errors.push(msg);
+                document.getElementById('errFullName').textContent = msg;
+            }
+
+            // 2. Email Validation
+            const email = document.getElementById('email').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email) {
+                const msg = "Email Address is required.";
+                errors.push(msg);
+                document.getElementById('errEmail').textContent = msg;
+            } else if (!emailRegex.test(email)) {
+                const msg = "Invalid Email Address format (e.g., user@example.com).";
+                errors.push(msg);
+                document.getElementById('errEmail').textContent = msg;
+            }
+
+            // 3. Confirm Email Validation
+            const confirmEmail = document.getElementById('confirmEmail').value.trim();
+            if (!confirmEmail) {
+                const msg = "Please confirm your Email Address.";
+                errors.push(msg);
+                document.getElementById('errConfirmEmail').textContent = msg;
+            } else if (confirmEmail !== email) {
+                const msg = "Email Address and Confirm Email do not match.";
+                errors.push(msg);
+                document.getElementById('errConfirmEmail').textContent = msg;
+            }
+
+            // 4. Phone Number Validation (Regex 10 digits)
+            const phone = document.getElementById('phoneNumber').value.trim();
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phone) {
+                const msg = "Phone Number is required.";
+                errors.push(msg);
+                document.getElementById('errPhoneNumber').textContent = msg;
+            } else if (!phoneRegex.test(phone)) {
+                const msg = "Phone Number must be exactly 10 digits.";
+                errors.push(msg);
+                document.getElementById('errPhoneNumber').textContent = msg;
+            }
+
+            // 5. Select Event Validation
+            const eventName = document.getElementById('eventName').value;
+            if (!eventName) {
+                const msg = "Please select an event.";
+                errors.push(msg);
+                document.getElementById('errEventName').textContent = msg;
+            }
+
+            // 6. Ticket Type Validation
+            const ticketType = document.getElementById('ticketType').value;
+            if (!ticketType) {
+                const msg = "Please select a ticket pass type.";
+                errors.push(msg);
+                document.getElementById('errTicketType').textContent = msg;
+            }
+
+            // 7. Number of Tickets Validation (Range 1-10)
+            const tickets = parseInt(document.getElementById('numberOfTickets').value, 10);
+            if (isNaN(tickets) || tickets < 1 || tickets > 10) {
+                const msg = "You can register between 1 and 10 tickets per booking.";
+                errors.push(msg);
+                document.getElementById('errNumberOfTickets').textContent = msg;
+            }
+
+            // 8. Event Date Validation
+            const eventDate = document.getElementById('eventDate').value;
+            if (!eventDate) {
+                const msg = "Event Date selection is required.";
+                errors.push(msg);
+                document.getElementById('errEventDate').textContent = msg;
+            } else {
+                const selDate = new Date(eventDate);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                if (selDate < today) {
+                    const msg = "Event Date cannot be in the past.";
+                    errors.push(msg);
+                    document.getElementById('errEventDate').textContent = msg;
+                }
+            }
+
+            // 9. Terms Checkbox Validation
+            const agreed = document.getElementById('agreedToTerms').checked;
+            if (!agreed) {
+                const msg = "You must agree to the Terms & Conditions.";
+                errors.push(msg);
+                document.getElementById('errAgreedToTerms').textContent = msg;
+            }
+
+            // Display Validation Summary if errors exist
+            if (errors.length > 0) {
+                const summaryList = document.getElementById('summaryList');
+                errors.forEach(err => {
+                    const li = document.createElement('li');
+                    li.textContent = err;
+                    summaryList.appendChild(li);
+                });
+                document.getElementById('validationSummary').classList.remove('d-none');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+
+            // Calculate total price
+            let price = 499;
+            if (ticketType.includes('1499')) price = 1499;
+            else if (ticketType.includes('199')) price = 199;
+            const total = price * tickets;
+
+            // Populate confirmation details
+            document.getElementById('resRegId').textContent = 'REG-' + Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('resName').textContent = fullName;
+            document.getElementById('resEmail').textContent = email;
+            document.getElementById('resPhone').textContent = phone;
+            document.getElementById('resEvent').textContent = eventName;
+            document.getElementById('resTicketType').textContent = ticketType;
+            document.getElementById('resTicketsCount').textContent = tickets;
+            document.getElementById('resDate').textContent = eventDate;
+            document.getElementById('resTotal').textContent = '₹' + total.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+
+            // Show Confirmation Card
+            document.getElementById('formCard').classList.add('d-none');
+            document.getElementById('confirmationCard').classList.remove('d-none');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        function resetForm() {
+            document.getElementById('eventForm').reset();
+            document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+            document.getElementById('validationSummary').classList.add('d-none');
+        }
+
+        function resetRegistration() {
+            resetForm();
+            document.getElementById('confirmationCard').classList.add('d-none');
+            document.getElementById('formCard').classList.remove('d-none');
+        }
+    </script>
+</body>
+</html>
