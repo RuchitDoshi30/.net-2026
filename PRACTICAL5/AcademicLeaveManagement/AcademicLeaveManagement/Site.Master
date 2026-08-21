@@ -1,0 +1,75 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="AcademicLeaveManagement.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - Academic Calendar & Leave Management</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <!-- University Portal Header -->
+        <header class="portal-header">
+            <div class="header-container">
+                <a href="Dashboard.aspx" class="brand-section">
+                    <div class="brand-icon">🏛️</div>
+                    <div>
+                        <div class="brand-title">Academic Calendar & Leave Management System</div>
+                        <div class="brand-subtitle">Department of Computer Engineering & IT &bull; DNT Practical 5</div>
+                    </div>
+                </a>
+                <div class="user-status-bar">
+                    <div class="user-pill">
+                        <span>👤</span>
+                        <span>Welcome, <asp:Label ID="lblLoggedUser" runat="server" CssClass="username-highlight" Text="Student"></asp:Label></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Bar -->
+        <nav class="nav-bar">
+            <div class="nav-container">
+                <asp:HyperLink ID="lnkDashboard" runat="server" NavigateUrl="~/Dashboard.aspx" CssClass="nav-link">
+                    📊 Dashboard
+                </asp:HyperLink>
+                <asp:HyperLink ID="lnkCalendar" runat="server" NavigateUrl="~/AcademicCalendar.aspx" CssClass="nav-link">
+                    📅 Academic Calendar
+                </asp:HyperLink>
+                <asp:HyperLink ID="lnkApplyLeave" runat="server" NavigateUrl="~/ApplyLeave.aspx" CssClass="nav-link">
+                    📝 Apply Leave
+                </asp:HyperLink>
+                <asp:HyperLink ID="lnkLeaveHistory" runat="server" NavigateUrl="~/LeaveHistory.aspx" CssClass="nav-link">
+                    📋 Leave History
+                </asp:HyperLink>
+                
+                <asp:LinkButton ID="lnkLogout" runat="server" OnClick="lnkLogout_Click" CausesValidation="false" CssClass="nav-link nav-link-logout">
+                    🚪 Logout
+                </asp:LinkButton>
+            </div>
+        </nav>
+
+        <!-- Main Body Content -->
+        <main class="main-wrapper">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </main>
+
+        <!-- Footer -->
+        <footer class="portal-footer">
+            <div class="footer-container">
+                <div>
+                    &copy; <%: DateTime.Now.Year %> - <strong>Academic Leave Management System</strong> | .NET Framework 4.8 ASP.NET Web Forms
+                </div>
+                <div>
+                    Session State: <span style="color: #10b981; font-weight: 700;">Active</span> &bull; Cookies: <span style="color: #2563eb; font-weight: 700;">Enabled</span>
+                </div>
+            </div>
+        </footer>
+    </form>
+</body>
+</html>
